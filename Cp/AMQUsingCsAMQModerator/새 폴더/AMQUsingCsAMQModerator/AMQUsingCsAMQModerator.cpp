@@ -11,24 +11,6 @@
 #define NAME_OF( name ) ((void) sizeof(typeid(name)), #name)
 
 int main() {
-	char* brokerUri = (char*)"failover:tcp://127.0.0.1:61616"; // 브로커 접속 URL
-	char* destinationName = (char*)"queue://ADJ.SYNAPSE"; // Q 접속시 사용
-
-	ActiveMQC::AMQModerator amqModerator = { brokerUri, destinationName };
-	if (!amqModerator.Initialize()) {
-		std::cout << "AMQModerator Initialize False" << std::endl;
-		return 1;
-	}
-
-	if (!amqModerator.TESTInitSendMess_AIRQ()) {
-		std::cout << "AMQModerator TESTInitSendMess_AIRQ False" << std::endl;
-		return 1;
-	}
-
-	amqModerator.~AMQModerator();
-}
-
-int main2() {
 	char* brokerUri = (char*)"tcp://localhost:61616"; // 브로커 접속 URL
 	char* destinationName = (char*)"queue://queueTest"; // Q 접속시 사용
 	//char* topicName = (char*)"topic://topicTest"; // Topic 접속시 사용

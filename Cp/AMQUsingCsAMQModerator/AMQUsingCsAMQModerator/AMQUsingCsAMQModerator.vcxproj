@@ -23,7 +23,8 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{9a7a379f-20e9-4924-aa9c-324c42c23ebe}</ProjectGuid>
     <RootNamespace>AMQUsingCsAMQModerator</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>ActiveMQModerator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,13 +43,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -109,6 +110,13 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>rmdir "$(SolutionDir)$(Platform)\$(Configuration)\lib" /q /s
+if not exist "$(SolutionDir)$(Platform)\$(Configuration)\lib" mkdir "$(SolutionDir)$(Platform)\$(Configuration)\lib"
+if not exist "$(SolutionDir)$(Platform)\$(Configuration)\lib\header" mkdir "$(SolutionDir)$(Platform)\$(Configuration)\lib\header"
+copy $(SolutionDir)$(Platform)\$(Configuration)\*.lib $(SolutionDir)$(Platform)\$(Configuration)\lib\.
+copy $(ProjectDir)*.h $(SolutionDir)$(Platform)\$(Configuration)\lib\header\.</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -125,13 +133,31 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>rmdir "$(SolutionDir)$(Platform)\$(Configuration)\lib" /q /s
+if not exist "$(SolutionDir)$(Platform)\$(Configuration)\lib" mkdir "$(SolutionDir)$(Platform)\$(Configuration)\lib"
+if not exist "$(SolutionDir)$(Platform)\$(Configuration)\lib\header" mkdir "$(SolutionDir)$(Platform)\$(Configuration)\lib\header"
+copy $(SolutionDir)$(Platform)\$(Configuration)\*.lib $(SolutionDir)$(Platform)\$(Configuration)\lib\.
+copy $(ProjectDir)*.h $(SolutionDir)$(Platform)\$(Configuration)\lib\header\.</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ActiveMQModerator.cpp" />
+    <ClCompile Include="ActiveMQModeratorManager.cpp" />
+    <ClCompile Include="AMQDatas.cpp" />
+    <ClCompile Include="DataAIRS.cpp" />
     <ClCompile Include="AMQUsingCsAMQModerator.cpp" />
+    <ClCompile Include="DataAIRS_ResultInfo.cpp" />
+    <ClCompile Include="DataAIRS_SynapseRuleResult.cpp" />
+    <ClCompile Include="jsoncpp.cpp" />
+    <ClCompile Include="DataAIRQ.cpp" />
+    <ClCompile Include="DataAIRS_SynapseDefectItem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActiveMQModerator.h" />
+    <ClInclude Include="AMQModerator.h" />
+    <ClInclude Include="AMQDatas.h" />
+    <ClInclude Include="json\json-forwards.h" />
+    <ClInclude Include="json\json.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
