@@ -18,6 +18,12 @@ namespace ConsoleApp3
             catch { }
 
             DataAIRQ? dataEAYT = JsonSerializer.Deserialize<DataAIRQ>(Program.message);
+            if (dataEAYT == null )
+            {
+                return;
+            }
+            IDataMessage dataMessage = dataEAYT;
+            DataAIRQ? dataAIRQ1 = dataMessage as DataAIRQ;
 
             if (dataEAYT != null) { }
         }
