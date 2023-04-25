@@ -2,6 +2,7 @@
 {
     public enum DataTypes
     {
+        None,
         EAYT,
         AIRQ,
         AIRS,

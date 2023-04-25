@@ -6,9 +6,9 @@
         public string DEFECT_NAME { get; set; }
         public string CROP_PATH { get; set; }
         public string REVIEW_PATH { get; set; }
-        public int x { get; set; }
-        public int y { get; set; }
-        public int width { get; set; }
-        public int height { get; set; }
+        public string x { get; set; }
+        public string y { get; set; }
+        public string width { get; set; }
+        public string height { get; set; }
     }
 }
