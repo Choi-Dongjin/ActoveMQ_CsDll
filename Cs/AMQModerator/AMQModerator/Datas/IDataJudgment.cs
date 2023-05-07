@@ -46,7 +46,7 @@
         /// </summary>
         string JUDGE_SERVICE_TYPE { get; set; }
 
-        /// <summary>
+/// <summary>
         /// IMAGE_AI : DEFECT_NAME
         /// SYNAPSE : SYNAPSE_RULE_INSPECTION, SYNAPSE_GV_EXTRACTION
         /// </summary>

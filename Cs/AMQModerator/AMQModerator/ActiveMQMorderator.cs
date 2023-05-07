@@ -55,17 +55,17 @@ namespace AMQModerator
         private readonly IDestination _destination;
         private readonly IMessageConsumer _consumer;
         private readonly IMessageProducer _producer;
-        private IMessage _receiveMessage;
+        private IMessage _receiveIMessage;
 
         public IMessage ReceiveIMessage
         {
-            get { return _receiveMessage; }
-            private set { _receiveMessage = value; }
+            get { return _receiveIMessage; }
+            set { _receiveIMessage = value; }
         }
 
         public string ReceiveIMessageNMSType
         {
-            get { return _receiveMessage.NMSType; }
+            get { return _receiveIMessage.NMSType; }
         }
 
         public ActiveMQMorderator(string brokerUri, string destinationName)
@@ -165,6 +165,20 @@ namespace AMQModerator
             textMessage.NMSCorrelationID = ReceiveIMessage.NMSCorrelationID; // 그대로 보내주세요.
             textMessage.NMSType = nmsType; // 통신 타입. 전송하는 통신 타입
             textMessage.Properties.SetString("guid", ReceiveIMessage.Properties.GetString("guid")); // GUID
+            textMessage.Text = message;
+            _producer.Send(textMessage);
+            return true;
+        }
+
+        public bool SendMessageStandard(string message, string nmsType, IMessage receiveIMessage)
+        {
+            if (receiveIMessage is null)
+                return false;
+
+            ITextMessage textMessage = _producer.CreateTextMessage();
+            textMessage.NMSCorrelationID = receiveIMessage.NMSCorrelationID; // 그대로 보내주세요.
+            textMessage.NMSType = nmsType; // 통신 타입. 전송하는 통신 타입
+            textMessage.Properties.SetString("guid", receiveIMessage.Properties.GetString("guid")); // GUID
             textMessage.Text = message;
             _producer.Send(textMessage);
             return true;

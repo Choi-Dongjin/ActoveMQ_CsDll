@@ -13,6 +13,14 @@ namespace AMQModerator
         private readonly IDestination _destination;
         private readonly IMessageConsumer _consumer;
 
+        private IMessage _receiveIMessage;
+
+        public IMessage ReceiveIMessage
+        {
+            get { return _receiveIMessage; }
+            set { _receiveIMessage = value; }
+        }
+
         public ActiveMQConsumer(string brokerUri, string destinationName)
         {
             _factory = new ConnectionFactory(brokerUri);
@@ -37,6 +45,7 @@ namespace AMQModerator
         public string ReceiveMessage()
         {
             IMessage message = _consumer.Receive();
+            ReceiveIMessage = message;
             if (message is ITextMessage textMessage)
             {
                 //Console.WriteLine("Received message: " + textMessage.Text);
@@ -53,6 +62,7 @@ namespace AMQModerator
             {
                 if (message is ITextMessage textMessage)
                 {
+                    ReceiveIMessage = textMessage;
                     Console.WriteLine(string.Format("Got GetAllMessages {0} : {1}", messages.Count, textMessage.Text));
                     messages.Add(textMessage.Text);
                 }

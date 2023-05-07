@@ -25,9 +25,9 @@ namespace AMQModerator.Datas
         public string RESULT { get; set; }
         public string ERROR_CODE { get; set; }
         public string ERROR_MESSAGE { get; set; }
-        public string WORK_START_DATE { get; set; }
-        public string WORK_TIME { get; set; }
-        public string WAIT_TIME { get; set; }
+        public DateTime WORK_START_DATE { get; set; }
+        public TimeSpan WORK_TIME { get; set; }
+        public TimeSpan WAIT_TIME { get; set; }
         public DataAIRSResultInfo RESULT_INFO { get; set; }
     }
 }

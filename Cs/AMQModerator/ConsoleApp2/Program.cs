@@ -14,7 +14,7 @@ namespace ConsoleApp2
             //amq = new(_brokerUri1, _queueName);
             //while (true)
             //{
-            //    string mess = amq.ReceiveMessage();
+            //    string mess = amq.ReceiveIMessage();
             //}
             Program program = new();
         }
@@ -37,6 +37,7 @@ namespace ConsoleApp2
         private const string _queueName = "queue://TEST.SANG.ACT.01";
 
         private readonly ActiveMQMorderator _activeMQMorderator;
+        private readonly ActiveMQConsumer _consumer;
 
         public Program()
         {
@@ -45,12 +46,13 @@ namespace ConsoleApp2
                 return;
             }
 
-            this._activeMQMorderator = new(_brokerUri1, _queueName);
-            //Task.Run(() => ConsumerStart(this._mainCTS.Token));
-            this._activeMQMorderator.TestInitSendMessage_EAYT(tEAYT);
-            string mess = this._activeMQMorderator.ReceiveMessage();
+            _consumer = new(_brokerUri1, _queueName);
+            this._activeMQMorderator = new(_brokerUri1, "queue://ADJP.VARO.QUEUE.REQUEST.DL");
+
+            //this._activeMQMorderator.TestInitSendMessage_EAYT(tEAYT);
+            //string mess = this._consumer.ReceiveMessage();
             this._activeMQMorderator.TestInitSendMessage_AIRQ(tAIRQ);
-            mess = this._activeMQMorderator.ReceiveMessage();
+            string mess = this._consumer.ReceiveMessage();
             DataAIRS? dataAIRS = null;
             try
             {
