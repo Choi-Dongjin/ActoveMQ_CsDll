@@ -2,6 +2,7 @@
 using Apache.NMS.ActiveMQ;
 using System;
 using System.Collections;
+using System.Data.Common;
 
 namespace AMQModerator
 {
@@ -84,9 +85,14 @@ namespace AMQModerator
 
         public void Dispose()
         {
+            _consumer?.Close();
+            _session?.Close();
+            _connection?.Close();
             _consumer?.Dispose();
+            _destination.Dispose();
             _session?.Dispose();
             _connection?.Dispose();
+
         }
     }
 }

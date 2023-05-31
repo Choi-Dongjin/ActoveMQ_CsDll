@@ -283,8 +283,7 @@ namespace AMQModerator
 
             if (Main.Morderator is null)
             {
-                Console.WriteLine("Main.Morderator is not Init");
-                return true;
+                return false;
             }
 
             try
@@ -307,8 +306,7 @@ namespace AMQModerator
 
             if (Main.Consumer is null)
             {
-                Console.WriteLine("Main.Morderator is not Init");
-                return true;
+                return false;
             }
 
             try
@@ -331,8 +329,7 @@ namespace AMQModerator
 
             if (Main.Producer is null)
             {
-                Console.WriteLine("Main.Morderator is not Init");
-                return true;
+                return false;
             }
 
             try

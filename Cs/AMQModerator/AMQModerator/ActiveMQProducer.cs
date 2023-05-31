@@ -76,7 +76,11 @@ namespace AMQModerator
 
         public void Dispose()
         {
+            _producer?.Close();
+            _session?.Close();
+            _connection?.Close();
             _producer?.Dispose();
+            _destination.Dispose();
             _session?.Dispose();
             _connection?.Dispose();
         }
