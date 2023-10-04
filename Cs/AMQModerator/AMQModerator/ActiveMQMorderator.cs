@@ -110,16 +110,6 @@ namespace AMQModerator
             _producer.Send(textMessage);
         }
 
-        public void TestInitSendMessage_EAYT(string message)
-        {
-            ITextMessage textMessage = _producer.CreateTextMessage();
-            textMessage.NMSCorrelationID = "TEST_MESS_ID"; // 그대로 보내주세요.
-            textMessage.NMSType = "EAYT"; // 통신 타입. 전송하는 통신 타입
-            textMessage.Properties.SetString("guid", Guid.NewGuid().ToString()); // GUID
-            textMessage.Text = message;
-            _producer.Send(textMessage);
-        }
-
         public void TestInitSendMessage_AIRQ(string message)
         {
             ITextMessage textMessage = _producer.CreateTextMessage();
@@ -141,18 +131,6 @@ namespace AMQModerator
             textMessage.NMSType = "AIRQ"; // 통신 타입. 전송하는 통신 타입
             textMessage.Properties.SetString("guid", Guid.NewGuid().ToString()); // GUID
             textMessage.Text = jObject.ToString();
-            _producer.Send(textMessage);
-        }
-
-        public void TESTInitSendMess_AIRS()
-        {
-            const string message = "{\r\n    \"Version\": \"2.3.4.3\",\r\n    \"MessageName\": \"AIRS\",\r\n    \"Description\": \"ADJP inspection Response\",\r\n    \"ConsumerAddr\": \"ADJP.VARO.QUEUE.REQUEST.DL\",\r\n    \"ConsumerDestinationType\": 0,\r\n    \"ProducerAddr\": \"TEST.SANG.ACT.01\",\r\n    \"ProducerDestinationType\": 0,\r\n    \"TransID\": \"TTT-0000-0001\",\r\n    \"FACILITY\": \"CM\",\r\n    \"PRODUCT\": \"VARO\",\r\n    \"MACHINE_ID\": \"EQUIPMENT\",\r\n    \"PROCESS_CODE\": \"RWGE\",\r\n    \"LOT_ID\": \"LOT01\",\r\n    \"PANEL_ID\": \"PANEL001\",\r\n    \"MODULE_ID\": \"30\",\r\n    \"JUDGE_PROGRAM_ID\": \"SYNAPSE01\",\r\n    \"JUDGE_SERVIE_TYPE\": \"SYNAPSE_IMAGING\",\r\n    \"SUB_JUDGE_SERVIE_TYPE\": \"SYNAPSE_RULE_INSPECTION\",\r\n    \"RESULT\": \"0\",\r\n    \"ERROR_CODE\": \"\",\r\n    \"ERROR_MESSAGE\": \"\",\r\n    \"WORK_START_DATE\": \"2023-04-13T13:09:48.4885527+09:00\",\r\n    \"WORK_TIME\": \"10675199.02:48:05.4775807\",\r\n    \"WAIT_TIME\": \"-10675199.02:48:05.4775808\",\r\n    \"RESULT_INFO\": {\r\n      \"SynapseRuleResultList\": [\r\n        {\r\n          \"MODEL_NAME\": \"AAA\",\r\n          \"MODEL_VERSION\": \"0.0.0\",\r\n          \"RAW_IMAGE_PATH\": \"GT7AA1BKD23GWA_00_2D1_AMV49221110103125053QBM-26_20230209000031_RWGE-00002T03_.bmp\",\r\n          \"SYNAPSE_DEFECT_ITEM_LIST\": [\r\n            {\r\n              \"REVIEW_PATH\": \"AMV49221110103125053QBM-26-REVIEW_XXXXXXXX1.bmp\",\r\n              \"DEFECT_CODE\": \"DEX\",\r\n              \"DEFECT_NAME\": \"DEFECT_EPOXY_X\",\r\n              \"CROP_PATH\": \"GT7AA1BKD23GWA_00_2D1_AMV49221110103125053QBM-26_20230209000031_RWGE-00002T03_CROP_XXXXXXXX1.bmp\",\r\n              \"x\": 0,\r\n              \"y\": 0,\r\n              \"width\": 256,\r\n              \"height\": 256\r\n            },\r\n            {\r\n              \"REVIEW_PATH\": \"AMV49221110103125053QBM-26-REVIEW_XXXXXXXX2.bmp\",\r\n              \"DEFECT_CODE\": \"DEY\",\r\n              \"DEFECT_NAME\": \"DEFECT_EPOXY_Y\",\r\n              \"CROP_PATH\": \"GT7AA1BKD23GWA_00_2D1_AMV49221110103125053QBM-26_20230209000031_RWGE-00002T03_CROP_XXXXXXXX2.bmp\",\r\n              \"x\": 390,\r\n              \"y\": 390,\r\n              \"width\": 256,\r\n              \"height\": 256\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"MODEL_NAME\": \"AAA\",\r\n          \"MODEL_VERSION\": \"0.0.0\",\r\n          \"RAW_IMAGE_PATH\": \"GT7AA1BKD23GWA_00_AttachPR2_AMV49221110103125053QBM-26_20230208234430_RWGE-00002T01_\",\r\n          \"SYNAPSE_DEFECT_ITEM_LIST\": [\r\n            {\r\n              \"REVIEW_PATH\": \"AMV49221110103125053QBM-26-REVIEW2_XXXXXXXX1.bmp\",\r\n              \"DEFECT_CODE\": \"DEX\",\r\n              \"DEFECT_NAME\": \"DEFECT_EPOXY_X\",\r\n              \"CROP_PATH\": \"GT7AA1BKD23GWA_00_AttachPR2_AMV49221110103125053QBM-26_20230208234430_RWGE-00002T01_CROP_XXXXXXXX1.bmp\",\r\n              \"x\": 40,\r\n              \"y\": 0,\r\n              \"width\": 256,\r\n              \"height\": 256\r\n            },\r\n            {\r\n              \"REVIEW_PATH\": \"AMV49221110103125053QBM-26-REVIEW2_XXXXXXXX2.bmp\",\r\n              \"DEFECT_CODE\": \"DEY\",\r\n              \"DEFECT_NAME\": \"DEFECT_EPOXY_Y\",\r\n              \"CROP_PATH\": \"GT7AA1BKD23GWA_00_AttachPR2_AMV49221110103125053QBM-26_20230208234430_RWGE-00002T01_CROP_XXXXXXXX2.bmp\",\r\n              \"x\": 190,\r\n              \"y\": 390,\r\n              \"width\": 256,\r\n              \"height\": 256\r\n            }\r\n          ]\r\n        }\r\n      ],\r\n      \"SynapseProgramVersion\": \"0.0.0.1\",\r\n      \"Image_Save_ADJ_Root_Path\": \"D:\\\\ADJ_VARO\\\\DATA\\\\IMAGE\\\\RWGE\\\\02\\\\09\\\\CROP\",\r\n      \"Image_Save_Review_Root_Path\": \"D:\\\\ADJ_VARO\\\\DATA\\\\IMAGE\\\\RWGE\\\\02\\\\09\\\\REVIEW\"\r\n    }\r\n  }\r\n \r\n";
-
-            ITextMessage textMessage = _producer.CreateTextMessage();
-            textMessage.NMSCorrelationID = "TEST_MESS_ID"; // 그대로 보내주세요.
-            textMessage.NMSType = "AIRS"; // 통신 타입. 전송하는 통신 타입
-            textMessage.Properties.SetString("guid", Guid.NewGuid().ToString()); // GUID
-            textMessage.Text = message;
             _producer.Send(textMessage);
         }
 
@@ -186,28 +164,12 @@ namespace AMQModerator
 
         public string ReceiveMessage()
         {
-            IMessage message = _consumer.Receive();
+            IMessage message = _consumer.Receive(TimeSpan.FromSeconds(10D));
             ReceiveIMessage = message;
 
             if (message is ITextMessage textMessage)
             {
-                switch (textMessage.NMSType)
-                {
-                    case "EAYT":
-                        // 전송 Data EAYT_R
-                        //Console.WriteLine("Produced message (Queue) : " + tEAYTR);
-                        //SendMessageStandard(AnswerEAYT(textMessage.Text), "EAYT");
-                        return textMessage.Text;
-
-                    case "AIRQ":
-                        return textMessage.Text;
-
-                    case "AIRS":
-                        return textMessage.Text;
-
-                    case "RRAM":
-                        return textMessage.Text;
-                }
+                return textMessage.Text;
             }
             return null;
         }

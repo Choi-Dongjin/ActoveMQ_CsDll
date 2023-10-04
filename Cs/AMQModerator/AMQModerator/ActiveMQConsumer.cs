@@ -2,7 +2,6 @@
 using Apache.NMS.ActiveMQ;
 using System;
 using System.Collections;
-using System.Data.Common;
 
 namespace AMQModerator
 {
@@ -45,11 +44,10 @@ namespace AMQModerator
 
         public string ReceiveMessage()
         {
-            IMessage message = _consumer.Receive();
+            IMessage message = _consumer.Receive(TimeSpan.FromSeconds(10D));
             ReceiveIMessage = message;
             if (message is ITextMessage textMessage)
             {
-                //Console.WriteLine("Received message: " + textMessage.Text);
                 return textMessage.Text;
             }
             return null;

@@ -10,6 +10,10 @@ namespace AMQModerator
 
         public static ActiveMQProducer Producer { get; set; } = null;
 
+        public static ActiveMQConsumer SecondaryConsumer { get; set; } = null;
+
+        public static ActiveMQProducer SecondaryProducer { get; set; } = null;
+
         #region Common
 
         /// <summary>
@@ -65,11 +69,41 @@ namespace AMQModerator
         }
 
         [DllExport]
+        public static bool SecondaryConsumerInitialize(string brokerUri, string destinationName)
+        {
+            try
+            {
+                Main.SecondaryConsumer = new ActiveMQConsumer(brokerUri, destinationName);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        [DllExport]
         public static bool ProducerInitialize(string brokerUri, string destinationName)
         {
             try
             {
                 Main.Producer = new ActiveMQProducer(brokerUri, destinationName);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        [DllExport]
+        public static bool SecondaryProducerInitialize(string brokerUri, string destinationName)
+        {
+            try
+            {
+                Main.SecondaryProducer = new ActiveMQProducer(brokerUri, destinationName);
                 return true;
             }
             catch (Exception ex)
@@ -101,6 +135,22 @@ namespace AMQModerator
             if (!value)
                 return false;
             return Main.Producer.IsConnected();
+        }
+
+        [DllExport]
+        public static bool SecondaryConsumerIsConnected(bool value)
+        {
+            if (!value)
+                return false;
+            return Main.SecondaryConsumer.IsConnected();
+        }
+
+        [DllExport]
+        public static bool SecondaryProducerIsConnected(bool value)
+        {
+            if (!value)
+                return false;
+            return Main.SecondaryProducer.IsConnected();
         }
 
         /// <summary>
@@ -151,6 +201,27 @@ namespace AMQModerator
         }
 
         [DllExport]
+        public static bool SecondaryProducerSendMessage(string mess)
+        {
+            if (Main.SecondaryProducer is null)
+            {
+                Console.WriteLine("Main.Producer is not Init");
+                return false;
+            }
+
+            try
+            {
+                Main.SecondaryProducer.SendMessage(mess);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        [DllExport]
         public static bool SendMessageStandard(string mess, string nmsType)
         {
             if (Main.Morderator is null)
@@ -179,32 +250,10 @@ namespace AMQModerator
                 Console.WriteLine("Main.Producer is not Init");
                 return false;
             }
-
             try
             {
-                int mode = 2;
-
-                //if (Main.Morderator != null)
-                //{
-                //    if (Main.Morderator.ReceiveIMessage != null)
-                //        mode = 1;
-                //}
-                //else if (Main.Consumer != null)
-                //{
-                //    if (Main.Consumer.ReceiveIMessage != null)
-                //        mode = 2;
-                //}
-
-                switch (mode)
-                {
-                    case 1:
-                        Main.Producer.SendMessageStandard(mess, nmsType, Main.Morderator.ReceiveIMessage);
-                        return true;
-                    case 2:
-                        Main.Producer.SendMessageStandard(mess, nmsType, Main.Consumer.ReceiveIMessage);
-                        return true;
-                    default: return false;
-                }
+                Main.Producer.SendMessageStandard(mess, nmsType, Main.Consumer.ReceiveIMessage);
+                return true;
             }
             catch (Exception ex)
             {
@@ -212,6 +261,27 @@ namespace AMQModerator
                 return false;
             }
         }
+
+        [DllExport]
+        public static bool SecondaryProducerSendMessageStandard(string mess, string nmsType)
+        {
+            if (Main.SecondaryProducer is null)
+            {
+                Console.WriteLine("Main.Producer is not Init");
+                return false;
+            }
+            try
+            {
+                Main.SecondaryProducer.SendMessageStandard(mess, nmsType, Main.SecondaryConsumer.ReceiveIMessage);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
 
         /// <summary>
         /// 데이터 수신
@@ -259,6 +329,32 @@ namespace AMQModerator
             try
             {
                 string data = Main.Consumer.ReceiveMessage();
+                if (data == null)
+                    return "Null mess";
+                return data;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return ex.Message;
+            }
+        }
+
+        [DllExport]
+        public static string SecondaryConsumerReceiveMessage(bool value)
+        {
+            if (!value)
+                return "False Value";
+
+            if (Main.SecondaryConsumer is null)
+            {
+                Console.WriteLine("Main.Consumer is not Init");
+                return "Main.consumer is not Init";
+            }
+
+            try
+            {
+                string data = Main.SecondaryConsumer.ReceiveMessage();
                 if (data == null)
                     return "Null mess";
                 return data;
@@ -322,6 +418,29 @@ namespace AMQModerator
         }
 
         [DllExport]
+        public static bool SecondaryConsumerDispose(bool value)
+        {
+            if (!value)
+                return false;
+
+            if (Main.SecondaryConsumer is null)
+            {
+                return false;
+            }
+
+            try
+            {
+                Main.SecondaryConsumer.Dispose();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        [DllExport]
         public static bool ProducerDispose(bool value)
         {
             if (!value)
@@ -335,6 +454,29 @@ namespace AMQModerator
             try
             {
                 Main.Producer.Dispose();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        [DllExport]
+        public static bool SecondaryProducerDispose(bool value)
+        {
+            if (!value)
+                return false;
+
+            if (Main.SecondaryProducer is null)
+            {
+                return false;
+            }
+
+            try
+            {
+                Main.SecondaryProducer.Dispose();
                 return true;
             }
             catch (Exception ex)
